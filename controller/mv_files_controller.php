@@ -1,5 +1,5 @@
 <?php
-
+/** Archivo que permite mover los archivos a la carpeta de exportados */
 
 
 ini_set('display_errors', 1);

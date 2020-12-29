@@ -1,4 +1,6 @@
 <?php
+/** Controlador que procesa la informacion de los archivos */
+
 ini_set('display_errors', 1);
 
 date_default_timezone_set('America/Bogota');
@@ -18,12 +20,15 @@ $hoy = $_POST['hoy'] != "" ? $_POST['hoy'] : $day . $month . $year;
 $urls = $_POST['urls'];
 $urlsMv = array_key_exists("urlsMv", $_POST) ? $_POST['urlsMv'] : array();
 $urlsTrimeds = "";
+
+//Se procesan las urls para el mensaje de exito
 foreach ($urls as  $urlsReporte) {
     foreach ($urlsReporte as $url) {
         $urlTrimed = trim($url, "/home/reportes/$hoy");
         $urlsTrimeds .= "$urlTrimed <br>";
     }
 }
+
 /**
  * Lectura de los archivos
  */
@@ -179,11 +184,6 @@ foreach ($querys as $queryName => $arrayQuerys) {
     foreach ($arrayQuerys as $file => $value) {
         foreach ($value as $key => $sqlQuery) {
 
-            // print_r("Query N#$key del archivo N#$file de $queryName");
-            // print_r('<br>');
-            // print_r($sqlQuery);
-            // print_r('<br>');
-            // print_r('<br>');
             $stmt = sqlsrv_query($conn, $sqlQuery, $params);
             if ($stmt === false) {
                 $errores[] = array(
@@ -241,6 +241,14 @@ print_r(json_encode($response));
 
 //Definicion de funciones
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que lee el archivo de Sabre buscando el delimitador del archivo y retorna un arreglo con los datos
+ *
+ * @param string $urlSabre
+ * @return array $dataArray
+ */
 function readSabre($urlSabre)
 {
     $dataArray = array();
@@ -263,6 +271,14 @@ function readSabre($urlSabre)
     return $dataArray;
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que lee el archivo de Galileo y retorna un arreglo con los datos
+ *
+ * @param string $urlGalileo
+ * @return array $dataArray
+ */
 function readGalileo($urlGalileo)
 {
     $dataArray = array();
@@ -283,6 +299,14 @@ function readGalileo($urlGalileo)
     return $dataArray;
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que lee el archivo de Kiu y retorna un arreglo con los datos
+ *
+ * @param string $urlKiu
+ * @return array $dataArray
+ */
 function readKiu($urlKiu)
 {
     $dataArray = array();
@@ -300,6 +324,14 @@ function readKiu($urlKiu)
     return $dataArray;
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que lee el archivo de Amadeus y retorna un arreglo con los datos
+ *
+ * @param string $urlAmadeus
+ * @return array $dataArray
+ */
 function readAmadeus($urlAmadeus)
 {
     $dataArray = array(
@@ -308,7 +340,7 @@ function readAmadeus($urlAmadeus)
     );
     $reader = new Xlsx();
     $spreadsheet = $reader->load($urlAmadeus);
-    $pestanas = $spreadsheet->getSheetNames();
+    $pestanas = $spreadsheet->getSheetNames(); //validar las pestañas contenidas en el excel
     foreach ($pestanas as $key => $value) {
         $data = $spreadsheet->getSheet($key)->toArray(null, true, true, true);
         if ($value == "CLOZ1211J") {
@@ -321,6 +353,15 @@ function readAmadeus($urlAmadeus)
     return $dataArray;
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que procesa los datos de Sabre y retorna un arreglo con los querys SQL
+ *
+ * @param array $dataSabre
+ * @param array $arrayMonths
+ * @return array $querys
+ */
 function processSabre($dataSabre, $arrayMonths)
 {
     $querys = array();
@@ -351,6 +392,15 @@ function processSabre($dataSabre, $arrayMonths)
     return $querys;
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que procesa los datos de Galileo y retorna un arreglo con los querys SQL
+ *
+ * @param array $dataGalileo
+ * @param array $arrayMonths
+ * @return array $querys
+ */
 function processGalileo($dataGalileo, $arrayMonths)
 {
     $querys = array();
@@ -367,6 +417,15 @@ function processGalileo($dataGalileo, $arrayMonths)
     return $querys;
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que procesa los datos de Kiu y retorna un arreglo con los querys SQL
+ *
+ * @param array $dataKiu
+ * @param array $arrayMonths
+ * @return array $querys
+ */
 function processKiu($dataKiu, $arrayMonths)
 {
     $querys = array();
@@ -383,6 +442,15 @@ function processKiu($dataKiu, $arrayMonths)
     return $querys;
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que procesa los datos de Amadeus y retorna un arreglo con los querys SQL
+ *
+ * @param array $dataAmadeus
+ * @param array $arrayMonths
+ * @return array $querys
+ */
 function processAmadeus($dataAmadeus, $arrayMonths)
 {
     $querys = array(

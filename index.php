@@ -75,6 +75,7 @@
     <script src="assets/js/jquery-3.5.1.min.js"></script>
     <script src="assets/js/bootstrap/bootstrap.min.js"></script>
     <?php
+    //Validar si la url cuenta con la variable folder
     if (!empty($_GET)) {
     ?>
         <script>
@@ -93,6 +94,7 @@
 
             var hoy = typeof folder !== 'undefined' ? folder : "";
 
+            //Llamado Ajax para validar los archivos
             $.ajax({
                 type: "POST",
                 url: "controller/validate_files_controller.php",
@@ -122,6 +124,7 @@
             });
         })
 
+        //Funcion con llamado Ajax para archivar los archivos
         function archivar(folderName) {
             var spinner = '<div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div><div class="spinner-grow text-secondary" role="status"><span class="sr-only">Loading...</span></div><div class="spinner-grow text-success" role="status"><span class="sr-only">Loading...</span> </div>'
             $("#body-card").html(spinner);
@@ -152,7 +155,7 @@
                 }
             });
         }
-
+        //Funcion con llamado Ajax para exportar los archivos
         function exportar(folderName) {
             var spinner = '<div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div><div class="spinner-grow text-secondary" role="status"><span class="sr-only">Loading...</span></div><div class="spinner-grow text-success" role="status"><span class="sr-only">Loading...</span> </div>'
             $("#body-card").html(spinner);

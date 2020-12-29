@@ -45,16 +45,6 @@ if (!$globKiu && !$globAmadeus && !$globGalileo && !$globSabre) {
 $connInfo = getConnection();
 
 $conn = sqlsrv_connect($connInfo[0], $connInfo[1]);
- /** Carga en BD */
-//Servidor de Pruebas
-// $serverName = "192.168.1.131\SQLEXPRESS, 1433"; //serverName\instanceName
-// $connectionInfo = array("Database" => "Backoffice", "UID" => "sa", "PWD" => "Sistemas1");
-
-// //Servidor de Produccion
-// // $serverName = "192.168.1.6\integra2"; //serverName\instanceName
-// // $connectionInfo = array("Database" => "BackOffice", "UID" => "sa", "PWD" => "Jetours_123");
-
-// $conn = sqlsrv_connect($serverName, $connectionInfo);
 
 if ($conn === false) {
     $response['success'] = false;
@@ -151,7 +141,19 @@ $response = array(
 print_r(json_encode($response));
 
 
-
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que valida el archivo de Sabre para comprobar que es valido para cargar
+ *
+ * @param string $url
+ * @param object $conn
+ * @return array $isValid
+ *  $isValid = array(
+ *      "isValid" : bool true si el archivo se puede procesar
+ *      "msg" : string mensaje que indica el motivo de invalidez
+ * )
+ */
 function validateSabreFile($url, $conn)
 {
     $isValid = false;
@@ -183,10 +185,23 @@ function validateSabreFile($url, $conn)
     // else{
     // die(print_r(sqlsrv_errors(), true)); //Descomentar solo para debug
     // }
-
-    return ["isValid" => $isValid, "msg" => "(Archivo ya cargado en BD)"];
+    $msg = $isValid ? "" : "(Archivo ya cargado en BD)";
+    return ["isValid" => $isValid, "msg" => $msg];
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que valida el archivo de Galileo para comprobar que es valido para cargar
+ *
+ * @param string $url
+ * @param object $conn
+ * @return array $isValid
+ *  $isValid = array(
+ *      "isValid" : bool true si el archivo se puede procesar
+ *      "msg" : string mensaje que indica el motivo de invalidez
+ * )
+ */
 function validateGalileoFile($url, $conn)
 {
     $isValid = false;
@@ -217,10 +232,23 @@ function validateGalileoFile($url, $conn)
     // die(print_r(sqlsrv_errors(), true)); //Descomentar solo para debug
     // }
 
-    return ["isValid" => $isValid, "msg" => "(Archivo ya cargado en BD)"];
+    $msg = $isValid ? "" : "(Archivo ya cargado en BD)";
+    return ["isValid" => $isValid, "msg" => $msg];
 }
 
-
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que valida el archivo de Kiu para comprobar que es valido para cargar
+ *
+ * @param string $url
+ * @param object $conn
+ * @return array $isValid
+ *  $isValid = array(
+ *      "isValid" : bool true si el archivo se puede procesar
+ *      "msg" : string mensaje que indica el motivo de invalidez
+ * )
+ */
 function validateKiuFile($url, $conn)
 {
     $isValid = false;
@@ -257,9 +285,23 @@ function validateKiuFile($url, $conn)
     // else{
     // die(print_r(sqlsrv_errors(), true)); //Descomentar solo para debug
     // }
-    return ["isValid" => $isValid, "msg" => "(Archivo ya cargado en BD)"];
+    $msg = $isValid ? "" : "(Archivo ya cargado en BD)";
+    return ["isValid" => $isValid, "msg" => $msg];
 }
 
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que valida el archivo de Amadeus para comprobar que es valido para cargar
+ *
+ * @param string $url
+ * @param object $conn
+ * @return array $isValid
+ *  $isValid = array(
+ *      "isValid" : bool true si el archivo se puede procesar
+ *      "msg" : string mensaje que indica el motivo de invalidez
+ * )
+ */
 function validateAmadeusFile($url, $conn)
 {
     $isValid = false;
@@ -288,5 +330,6 @@ function validateAmadeusFile($url, $conn)
     // else{
     // die(print_r(sqlsrv_errors(), true)); //Descomentar solo para debug
     // }
-    return ["isValid" => $isValid, "msg" => "(Archivo ya cargado en BD)"];
+    $msg = $isValid ? "" : "(Archivo ya cargado en BD)";
+    return ["isValid" => $isValid, "msg" => $msg];
 }

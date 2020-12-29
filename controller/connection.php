@@ -1,6 +1,15 @@
 <?php
-ini_set('display_errors', 1);
+/** Archivo de funciones genericas */
 
+ini_set('display_errors', 1);
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que establece la conexion a la base de datos segun 
+ * el ambiente seleccionado
+ *
+ * @return object $conn
+ */
 function getConnection()
 {
     // $enviroment = "Pruebas";
@@ -28,7 +37,16 @@ function getConnection()
     return $conn;
 }
 
-function detectDelimiter($url) {
+/**
+ * Created by: Camilo Cruz
+ * Date: 26/12/2020
+ * Metodo que detecta el delimitador de un archivo .csv
+ *
+ * @param string $url
+ * @return string $delimiter
+ */
+function detectDelimiter($url)
+{
     $fh = fopen($url, "r");
 
     $delimiters = array("*", ";", "|", ",");
