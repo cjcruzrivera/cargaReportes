@@ -433,9 +433,10 @@ function processKiu($dataKiu, $arrayMonths)
     $arrayDateKiu = explode(" ", trim($dataKiu[0][5]));
     $dateKiu = "{$arrayMonths[ucfirst(strtolower($arrayDateKiu[3]))]['number']}/{$arrayDateKiu[2]}/{$arrayDateKiu[4]}";
     foreach ($dataKiu as $value) {
+        $observaciones = array_key_exists(12, $value) ? $value[12] : "";
         if (is_numeric($value[0])) {
             $query = "INSERT INTO KIUREPORTS (SEQ, VACIO, TICKET, FARE, TAX, FEE, COMM, NET, FP, TRANS, RELOC, [PAX NAME], OBSERVACIONS, FECHA, ASESOR) 
-                  VALUES ('{$value[0]}', '{$value[1]}', '{$value[2]}', '{$value[3]}', '{$value[4]}', '{$value[5]}', '{$value[6]}', '{$value[7]}', '{$value[8]}', '{$value[9]}', '{$value[10]}', '{$value[11]}', '{$value[12]}', '$dateKiu', '')";
+                  VALUES ('{$value[0]}', '{$value[1]}', '{$value[2]}', '{$value[3]}', '{$value[4]}', '{$value[5]}', '{$value[6]}', '{$value[7]}', '{$value[8]}', '{$value[9]}', '{$value[10]}', '{$value[11]}', '{$observaciones}', '$dateKiu', '')";
             $querys[] = $query;
         }
     }
